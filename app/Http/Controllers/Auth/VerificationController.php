@@ -25,7 +25,7 @@ class VerificationController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo;
 
     /**
      * Create a new controller instance.
@@ -34,6 +34,13 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
+
+        if (auth()->check()  && auth()->user()->role->id == 1){
+            $this->redirectTo = route('admindashboard');
+        }else{
+            $this->redirectTo = route('authordashboard');
+        }
+
         $this->middleware('auth');
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');

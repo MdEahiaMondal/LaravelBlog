@@ -25,5 +25,16 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo;
+
+
+    public function __construct()
+    {
+        if (auth()->check()  && auth()->user()->role->id == 1){
+            $this->redirectTo = route('admindashboard');
+        }else{
+            $this->redirectTo = route('authordashboard');
+        }
+    }
+
 }
