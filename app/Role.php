@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model
 {
    public function users(){
-       $this->hasMany(User::class); // one role for many users
+       return $this->hasMany(User::class); // one role for many users
    }
 }
