@@ -70,7 +70,6 @@ class TagController extends Controller
 
     public function destroy($id)
     {
-        dd();
         $tag = Tag::find($id);
         $tag->delete();
         Toastr::success('Tag Deleted Successfully', 'Success');

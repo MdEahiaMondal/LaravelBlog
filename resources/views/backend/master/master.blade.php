@@ -123,6 +123,7 @@
 <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
 {!! Toastr::message() !!}
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
 {{--//  any type of errors globaly  show --}}
 <script>

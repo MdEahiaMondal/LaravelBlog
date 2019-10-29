@@ -58,9 +58,19 @@
                                             <a class="btn btn-primary" title="Edit Item" href="{{ route('admin.tag.edit',$tag->id) }}">
                                                 <i class="material-icons">edit</i>
                                             </a>
-                                            <a class="btn btn-danger" title="Delete Item" href="{{ route('admin.tag.destroy',$tag->id) }}">
-                                                <i class="material-icons">delete</i>
-                                            </a>
+
+                                            <button class="btn btn-danger waves-effect" type="button" onclick="deleteTag({{ $tag->id }})">
+                                                    <i class="material-icons">delete</i>
+                                            </button>
+
+                                            <form action="{{ route('admin.tag.destroy', $tag->id) }}" id="delete-form-{{$tag->id}}"
+                                                  method="post" style="display: none;">
+                                                    @csrf
+                                                @method('DELETE')
+
+                                            </form>
+
+
 
                                         </td>
                                     </tr>
@@ -92,4 +102,50 @@
     <script src="{{ asset('backend/') }}/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
     <script src="{{ asset('backend/') }}/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
     <script src="{{asset('backend/')}}/js/pages/tables/jquery-datatable.js"></script>
+
+    {{--// for tag delete--}}
+    <script>
+        function deleteTag(id) {
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            });
+
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                   /* swalWithBootstrapButtons.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )*/
+                   event.preventDefault();
+                   document.getElementById('delete-form-'+id).submit();
+
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'Your imaginary file is safe :)',
+                        'error'
+                    )
+                }
+            })
+
+        }
+    </script>
+
 @endpush
