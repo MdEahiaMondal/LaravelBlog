@@ -36,9 +36,9 @@ class VerificationController extends Controller
     {
 
         if (auth()->check()  && auth()->user()->role->id == 1){
-            $this->redirectTo = route('admindashboard');
+            $this->redirectTo = route('admind.ashboard');
         }else{
-            $this->redirectTo = route('authordashboard');
+            $this->redirectTo = route('authord.ashboard');
         }
 
         $this->middleware('auth');

@@ -31,9 +31,9 @@ class ResetPasswordController extends Controller
     public function __construct()
     {
         if (auth()->check()  && auth()->user()->role->id == 1){
-            $this->redirectTo = route('admindashboard');
+            $this->redirectTo = route('admind.ashboard');
         }else{
-            $this->redirectTo = route('authordashboard');
+            $this->redirectTo = route('author.dashboard');
         }
     }
 
