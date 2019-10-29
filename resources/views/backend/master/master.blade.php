@@ -33,6 +33,10 @@
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="{{ asset('backend/css/themes/all-themes.css') }}" rel="stylesheet" />
 
+   {{-- toaster message css link--}}
+    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+
+
     @stack('css')
 
 </head>
@@ -114,6 +118,24 @@
 
 <!-- Demo Js -->
 <script src="{{ asset('backend/js/demo.js') }}"></script>
+
+<!-- toastr Js -->
+<script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+{!! Toastr::message() !!}
+
+
+{{--//  any type of errors globaly  show --}}
+<script>
+    @if($errors->any())
+        @foreach($errors->all() as $error)
+            toastr.error('{{ $error }}', 'Error', {
+                closeButton: true,
+                progressBar:true,
+    });
+         @endforeach
+    @endif
+</script>
+
 
 @stack('script')
 

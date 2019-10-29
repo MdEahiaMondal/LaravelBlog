@@ -23,6 +23,9 @@
 
     <link href="{{ asset('frontend/css/ionicons.css') }}" rel="stylesheet">
 
+    {{-- toaster message css link--}}
+    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+
     @stack('css')
 
 </head>
@@ -41,6 +44,11 @@
     <script src="{{ asset('frontend/js/bootstrap.js') }}"></script>
 
     <script src="{{ asset('frontend/js/scripts.js') }}"></script>
+
+
+    <!-- toastr Js -->
+    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+    {!! Toastr::message() !!}
 
 @stack('js')
 
