@@ -24,7 +24,7 @@
                 <div class="card">
                     <div class="header">
                         <h2>
-                            CATEGORY TABLE
+                            CATEGORY TABLE <span class="badge" style="background: #F44336">{{ $categories->count() }}</span>
                         </h2>
                     </div>
                     <div class="body">
@@ -34,6 +34,7 @@
                                 <tr>
                                     <th>SI</th>
                                     <th>Name</th>
+                                    <th>Post count</th>
                                     <th>Created At</th>
                                     <th>Updated At</th>
                                     <th>Action</th>
@@ -43,6 +44,7 @@
                                 <tr>
                                     <th>SI</th>
                                     <th>Name</th>
+                                    <th>Post count</th>
                                     <th>Created At</th>
                                     <th>Updated At</th>
                                     <th>Action</th>
@@ -53,6 +55,7 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $category->name }}</td>
+                                        <td> <span class="badge" style="background: #F44336;">{{ $category->posts->count() }}</span> </td>
                                         <td>{{ $category->created_at }}</td>
                                         <td>{{ $category->updated_at }}</td>
                                         <td class="text-center">
