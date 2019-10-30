@@ -95,9 +95,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
-    }
 
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -106,19 +105,71 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('admin.post.edit', compact('post','categories', 'tags'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Post  $post
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function update(Request $request, Post $post)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|string',
+            'image' => 'image',
+            'categories' => 'required',
+            'tags' => 'required',
+            'body' => 'required',
+        ]);
+
+        $image = $request->file('image');
+        $slug = Str::slug($request->title,'-');
+        if (isset($image)){
+
+            // set image name
+            $currentdataTime = Carbon::now()->toDateString();
+            $setImageName = $slug . '-' . $currentdataTime . '-' . uniqid() .'.'.$image->getClientOriginalExtension();
+
+            // check dir
+            if (!Storage::disk('public')->exists('post')){
+                Storage::disk('public')->makeDirectory('post');
+            }
+
+            // delete old image
+            if (Storage::disk('public')->exists('post/'.$post->image)){
+                Storage::disk('public')->delete('post/'.$post->image);
+            }
+
+            // make image
+            $postImage = Image::make($image)->resize(1600,1066)->stream();
+
+            // upload right dir
+            Storage::disk('public')->put('post/'.$setImageName,$postImage);
+
+        }else{
+            $setImageName = $post->image;
+        }
+
+        $post->user_id = auth()->id();
+        $post->title = $request->title;
+        $post->slug = $slug;
+        $post->image = $setImageName;
+        $post->body = $request->body;
+
+        if (isset($request->status)){
+            $post->status = true;
+        }else{
+            $post->status = false;
+        }
+
+        $post->is_approved = true;
+        $post->save();
+
+        $post->categories()->sync($request->categories); // (sync) it delete old post tags and category and update new
+        $post->tags()->sync($request->tags);
+
+        Toastr::success('Post Update Successfully Done !');
+        return redirect()->route('admin.post.index');
     }
 
     /**

@@ -1,6 +1,6 @@
 @extends('backend.master.master')
 
-@section('title', 'Category-create')
+@section('title', 'Post-create')
 
 @push('css')
     <!-- Multi Select Css -->
