@@ -12,7 +12,7 @@
     <div class="container-fluid">
         <!-- Vertical Layout | With Floating Label -->
 
-        <a href="{{ route('admin.post.index') }}" class="btn btn-warning">BACK</a>
+        <a href="{{ route('author.post.index') }}" class="btn btn-warning">BACK</a>
 
 
         @if($post->is_approved == false)

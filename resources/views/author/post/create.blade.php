@@ -103,7 +103,7 @@
                         </div>
                         <div class="body">
                             <textarea id="tinymce" name="body">
-
+                                {{ old('body') }}
                             </textarea>
                         </div>
                     </div>
