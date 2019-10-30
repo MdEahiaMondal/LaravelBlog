@@ -170,14 +170,19 @@ class PostController extends Controller
         return redirect()->route('author.post.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Post  $post
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function destroy(Post $post)
     {
-        //
+        if ( Storage::disk('public')->exists('post/'.$post->image) ){
+            Storage::disk('public')->delete('post/'.$post->image);
+        }
+
+        $post->categories()->detach(); // it will delete related category_post table
+        $post->tags()->detach(); // it will delete related post_tag table
+
+        $post->delete();
+        Toastr::success('Post Deleted Successfully Done !');
+        return redirect()->route('author.post.index');
     }
 }
