@@ -175,15 +175,17 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        if (isset($post->image)){
+
             if ( Storage::disk('public')->exists('post/'.$post->image) ){
                 Storage::disk('public')->delete('post/'.$post->image);
             }
-        }
 
-        $post->delete();
-        Toastr::success('Post Deleted Successfully Done !');
-        return redirect()->route('admin.post.index');
+            $post->categories()->detach(); // it will delete related category_post table
+            $post->tags()->detach(); // it will delete related post_tag table
+
+            $post->delete();
+            Toastr::success('Post Deleted Successfully Done !');
+            return redirect()->route('admin.post.index');
 
     }
 }

@@ -75,7 +75,7 @@
                             <h2>IMAGE</h2>
                         </div>
                         <div class="body">
-                            <img src="{{ Storage::disk('public')->url('post/'.$post->image) }}" alt="">
+                            <img class="img img-thumbnail" width="350" src="{{ Storage::url('post/'.$post->image) }}" alt="">
                         </div>
                     </div>
 
