@@ -88,13 +88,68 @@ class CategoryController extends Controller
 
     public function edit($id)
     {
-
+        $category = Category::find($id);
+        return view('admin.category.edit', compact('category'));
     }
 
 
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|unique:categories,name,'.$id.',id',
+            'image' => 'mimes:jpg,jpeg,png,bmp'
+        ]);
+
+        $image = $request->file('image');
+        $slug = Str::slug($request->name,'-');
+        $category = Category::find($id);
+        if (isset($image)){
+
+            // set image name
+            $currentDateTime = Carbon::now()->toDateString();
+            $setImageName = $slug . '-' . $currentDateTime . '-' . uniqid(). '.' .$image->getClientOriginalExtension();
+
+
+            // check  category dir is exists
+            if (!Storage::disk('public')->exists('category')){ // you must be use stream()
+                Storage::disk('public')->makeDirectory('category');
+            }
+
+            // delete old category background image
+            if (Storage::disk('public')->exists('category')){
+                Storage::disk('public')->delete('category/'.$category->image);
+            }
+
+            // resize image for category background and upload
+            $categoryImage = Image::make($image)->resize(1600, 479)->stream();
+            Storage::disk('public')->put('category/'.$setImageName,$categoryImage);
+
+
+
+            // check  category slider dir is exists
+            if (!Storage::disk('public')->exists('category/slider')){
+                Storage::disk('public')->makeDirectory('category/slider');
+            }
+
+            // delete old category slider image
+            if (Storage::disk('public')->exists('category/slider')){
+                Storage::disk('public')->delete('category/slider/'.$category->image);
+            }
+
+            // resize image for category  slider and upload
+            $sliderImage = Image::make($image)->resize(500, 333)->stream();
+            Storage::disk('public')->put('category/slider/'.$setImageName,$sliderImage);
+
+        }else{
+            $setImageName = $category->image;
+        }
+
+        $category->name = $request->name;
+        $category->slug = $slug;
+        $category->image = $setImageName;
+        $category->save();
+        Toastr::success('Category Successfully Updated !', 'Success');
+        return redirect()->route('admin.category.index');
     }
 
 
