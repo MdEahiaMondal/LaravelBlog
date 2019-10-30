@@ -82,11 +82,11 @@
                                         <td>{{ $post->updated_at }}</td>
                                         <td class="text-center">
 
-                                            <a class="btn btn-success" title="Show Post" href="{{ route('admin.post.show',$post->id) }}">
+                                            <a class="btn btn-success" title="Show Post" href="{{ route('author.post.show',$post->id) }}">
                                                 <i class="material-icons">visibility</i>
                                             </a>
 
-                                            <a class="btn btn-primary" title="Edit Post" href="{{ route('admin.post.edit',$post->id) }}">
+                                            <a class="btn btn-primary" title="Edit Post" href="{{ route('author.post.edit',$post->id) }}">
                                                 <i class="material-icons">edit</i>
                                             </a>
 
@@ -94,7 +94,7 @@
                                                     <i class="material-icons">delete</i>
                                             </button>
 
-                                            <form action="{{ route('admin.post.destroy', $post->id) }}" id="delete-form-{{$post->id}}"
+                                            <form action="{{ route('author.post.destroy', $post->id) }}" id="delete-form-{{$post->id}}"
                                                   method="post" style="display: none;">
                                                     @csrf
                                                 @method('DELETE')
