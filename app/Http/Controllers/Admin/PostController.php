@@ -173,6 +173,14 @@ class PostController extends Controller
     }
 
 
+    public function pending()
+    {
+        $posts = Post::where('is_approved', false)->get();
+        return view('admin.post.pending', compact('posts'));
+    }
+
+
+
     public function destroy(Post $post)
     {
 
