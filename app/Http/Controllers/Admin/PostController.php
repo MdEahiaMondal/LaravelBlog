@@ -95,7 +95,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-
+        return  view('admin.post.show', compact('post'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -172,14 +172,18 @@ class PostController extends Controller
         return redirect()->route('admin.post.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Post  $post
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Post $post)
     {
-        //
+        if (isset($post->image)){
+            if ( Storage::disk('public')->exists('post/'.$post->image) ){
+                Storage::disk('public')->delete('post/'.$post->image);
+            }
+        }
+
+        $post->delete();
+        Toastr::success('Post Deleted Successfully Done !');
+        return redirect()->route('admin.post.index');
+
     }
 }
