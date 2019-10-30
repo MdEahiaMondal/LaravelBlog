@@ -180,6 +180,23 @@ class PostController extends Controller
     }
 
 
+    public function approval($id)
+    {
+        $post = Post::find($id);
+
+        if ($post->is_approved == false){
+            $post->is_approved = true;
+            $post->save();
+
+            Toastr::success('Post Approved Successfully', 'Success');
+        }else{
+            Toastr::info('Post Already Approved ', 'Warning');
+        }
+
+        return redirect()->back();
+    }
+
+
 
     public function destroy(Post $post)
     {

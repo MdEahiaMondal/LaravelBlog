@@ -82,6 +82,19 @@
                                         <td>{{ $post->updated_at }}</td>
                                         <td class="text-center">
 
+                                            @if($post->is_approved == false)
+                                                <button  title="Press To Approve" type="button" onclick="approved({{ $post->id }})" class="btn btn-success">
+                                                    <i class="material-icons">done</i>
+                                                </button>
+                                            @endif
+
+
+                                            <form method="post" style="display: none" action="{{ route('admin.post.approve', $post->id) }}" id="approve-form">
+                                                @csrf
+                                                @method('PUT')
+                                            </form>
+
+
                                             <a class="btn btn-success" title="Show Post" href="{{ route('admin.post.show',$post->id) }}">
                                                 <i class="material-icons">visibility</i>
                                             </a>
@@ -136,6 +149,52 @@
 
     {{--// for tag delete--}}
     <script>
+
+
+        function approved(id) {
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            });
+
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You want to approve this post !",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, approved it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    /* swalWithBootstrapButtons.fire(
+                         'Deleted!',
+                         'Your file has been deleted.',
+                         'success'
+                     )*/
+                    event.preventDefault();
+                    document.getElementById('approve-form').submit();
+
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'The post remain pending :)',
+                        'info'
+                    )
+                }
+            })
+
+        }
+
+
+
         function deletePost(id) {
 
             const swalWithBootstrapButtons = Swal.mixin({
