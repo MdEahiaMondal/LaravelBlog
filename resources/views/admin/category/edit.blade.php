@@ -1,6 +1,6 @@
 @extends('backend.master.master')
 
-@section('title', 'tag-create')
+@section('title', 'tag-edit')
 
 @push('css')
 
@@ -17,20 +17,21 @@
                 <div class="card">
 
                     <div class="header">
-                        <h2>ADD NEW TAG</h2>
+                        <h2>Edit TAG</h2>
                     </div>
 
                     <div class="body">
-                        <form action="{{ route('admin.tag.store') }}" method="post">
+                        <form action="{{ route('admin.tag.update', $tag->id) }}" method="post">
                             @csrf
+                            @method('PUT')
                             <div class="form-group form-float">
                                 <div class="form-line">
-                                    <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-control">
+                                    <input type="text" id="name" name="name" value="{{ $tag->name }}" class="form-control">
                                     <label class="form-label">Tag Name here...</label>
                                 </div>
                             </div>
                             <a class="btn btn-warning m-t-15 waves-effect" href="{{ route('admin.tag.index') }}">BACK</a>
-                            <button type="submit" class="btn btn-primary m-t-15 waves-effect">SUBMIT</button>
+                            <button type="submit" class="btn btn-primary m-t-15 waves-effect">UPDATE</button>
                         </form>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 @extends('backend.master.master')
 
-@section('title', 'Tag')
+@section('title', 'Category')
 
 @push('css')
     <!-- JQuery DataTable Css -->
@@ -12,9 +12,9 @@
     <div class="container-fluid">
         <div class="block-header">
             <h2 >
-                <a class="btn btn-primary" href="{{ route('admin.tag.create') }}">
+                <a class="btn btn-primary" href="{{ route('admin.category.create') }}">
                     <i class="material-icons">add</i>
-                    <span> Add New Tag</span>
+                    <span> Add New Category</span>
                 </a>
             </h2>
         </div>
@@ -24,7 +24,7 @@
                 <div class="card">
                     <div class="header">
                         <h2>
-                            TAG TABLE
+                            CATEGORY TABLE
                         </h2>
                     </div>
                     <div class="body">
@@ -49,22 +49,22 @@
                                 </tr>
                                 </tfoot>
                                 <tbody>
-                                @foreach($tags as $key => $tag)
+                                @foreach($categories as $key => $category)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td>{{ $tag->name }}</td>
-                                        <td>{{ $tag->created_at }}</td>
-                                        <td>{{ $tag->updated_at }}</td>
+                                        <td>{{ $category->name }}</td>
+                                        <td>{{ $category->created_at }}</td>
+                                        <td>{{ $category->updated_at }}</td>
                                         <td class="text-center">
-                                            <a class="btn btn-primary" title="Edit Item" href="{{ route('admin.tag.edit',$tag->id) }}">
+                                            <a class="btn btn-primary" title="Edit Item" href="{{ route('admin.category.edit',$category->id) }}">
                                                 <i class="material-icons">edit</i>
                                             </a>
 
-                                            <button class="btn btn-danger waves-effect" type="button" onclick="deleteTag({{ $tag->id }})">
+                                            <button class="btn btn-danger waves-effect" type="button" onclick="deleteCategory({{ $category->id }})">
                                                     <i class="material-icons">delete</i>
                                             </button>
 
-                                            <form action="{{ route('admin.tag.destroy', $tag->id) }}" id="delete-form-{{$tag->id}}"
+                                            <form action="{{ route('admin.category.destroy', $category->id) }}" id="delete-form-{{$category->id}}"
                                                   method="post" style="display: none;">
                                                     @csrf
                                                 @method('DELETE')
@@ -106,7 +106,7 @@
 
     {{--// for tag delete--}}
     <script>
-        function deleteTag(id) {
+        function deleteCategory(id) {
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
