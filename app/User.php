@@ -39,13 +39,18 @@ class User extends Authenticatable
 
 
     public function role(){
-         return $this->belongsTo(Role::class); // one user forn one role
+         return $this->belongsTo(Role::class); // one user for one role
     }
 
 
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function favorite_posts()  /* one user can favarite more post*/
+    {
+        return $this->belongsToMany(Post::class)->withTimestamps();
     }
 
 }

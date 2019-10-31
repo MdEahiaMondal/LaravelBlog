@@ -24,4 +24,10 @@ class Post extends Model
     }
 
 
+    public function favorite_to_users()  //  more user can favarite one post
+    {
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
+
+
 }
