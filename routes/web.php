@@ -54,6 +54,13 @@ Route::group(['as' => 'author.','prefix' => 'author', 'namespace' => 'Author', '
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
     Route::resource('post', 'PostController');
 
+
+    // SettingsController route
+    Route::get('/settings', 'SettingsController@index')->name('settings');
+    Route::post('/profile-update/{id}', 'SettingsController@profileUpdate')->name('profile.update');
+    Route::post('/password-update/{id}', 'SettingsController@passwordUpdate')->name('password.update');
+
+
 });
 
 
