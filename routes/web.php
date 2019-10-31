@@ -43,3 +43,29 @@ Route::group(['as' => 'author.','prefix' => 'author', 'namespace' => 'Author', '
     Route::resource('post', 'PostController');
 
 });
+
+
+
+// ***************************Frontend Route******************************
+Route::post('subscriber', 'Frontend\SubscriberController@store')->name('subscriber.store');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
