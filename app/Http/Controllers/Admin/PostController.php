@@ -207,10 +207,9 @@ Using the Notification::route method, you may specify ad-hoc
             $post->is_approved = true;
             $post->save();
 
-            $post->user->notify(new AuthorPostApproved($post));
+        $post->user->notify(new AuthorPostApproved($post));
 
-            $subscribers = Subscriber::all();
-
+        $subscribers = Subscriber::all();
             /* // On-Demand Notifications
      Sometimes you may need to send a notification to
      someone who is not stored as a "user" of your application.
