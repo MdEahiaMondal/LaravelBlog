@@ -97,8 +97,8 @@ class PostController extends Controller
         $post->categories()->attach($request->categories);
         $post->tags()->attach($request->tags);
 
-        $AdminUsers = User::where('role_id', 1)->get();
-        Notification::send($AdminUsers, new NewAuthorPost($post));
+        $AdminUsers = User::where('role_id', 1)->get(); // this is User model
+        Notification::send($AdminUsers, new NewAuthorPost($post)); // this rool only for use (User model and table) not other model to send notification
 
         Toastr::success('New Post Create Successfully Done !', 'Success');
         return redirect()->route('author.post.index');

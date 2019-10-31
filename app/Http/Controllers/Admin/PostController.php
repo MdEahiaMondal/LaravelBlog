@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\Notifications\AuthorPostApproved;
+use App\Notifications\NewPostNotify;
 use App\Post;
+use App\Subscriber;
 use App\Tag;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Image;
@@ -83,6 +86,21 @@ class PostController extends Controller
 
        $post->categories()->attach($request->categories);
        $post->tags()->attach($request->tags);
+
+
+        $subscribers = Subscriber::all();
+
+        /* // On-Demand Notifications
+ Sometimes you may need to send a notification to
+ someone who is not stored as a "user" of your application.
+Using the Notification::route method, you may specify ad-hoc
+ notification routing information before
+        sending the notification:*/
+
+        foreach ($subscribers as $subscriber){
+
+            Notification::route('mail',$subscriber->email )->notify(new NewPostNotify($post));
+        }
 
        Toastr::success('New Post Create Successfully Done !');
        return redirect()->route('admin.post.index');
@@ -190,6 +208,21 @@ class PostController extends Controller
             $post->save();
 
             $post->user->notify(new AuthorPostApproved($post));
+
+            $subscribers = Subscriber::all();
+
+            /* // On-Demand Notifications
+     Sometimes you may need to send a notification to
+     someone who is not stored as a "user" of your application.
+    Using the Notification::route method, you may specify ad-hoc
+     notification routing information before
+            sending the notification:*/
+
+            foreach ($subscribers as $subscriber){
+
+                Notification::route('mail',$subscriber->email )->notify(new NewPostNotify($post));
+            }
+
 
             Toastr::success('Post Approved Successfully', 'Success');
         }else{
