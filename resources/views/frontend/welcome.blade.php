@@ -425,7 +425,7 @@
 
 
 
-@push('js')
+@push('script')
 
     <script src="{{ asset('frontend/js/swiper.js') }}"></script>
 
