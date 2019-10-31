@@ -46,8 +46,17 @@ class PostController extends Controller
             'body' => 'required',
         ]);
 
+
+
         $image = $request->file('image');
         $slug = Str::slug($request->title,'-');
+        $CheckSlug = Post::where('slug',$slug)->first();
+
+        if (isset($CheckSlug)){
+            Toastr::error('Plase Change Your Title', 'Error');
+            return redirect()->back();
+        }
+
         if (isset($image)){
 
             // set image name
@@ -91,7 +100,7 @@ class PostController extends Controller
         $AdminUsers = User::where('role_id', 1)->get();
         Notification::send($AdminUsers, new NewAuthorPost($post));
 
-        Toastr::success('New Post Create Successfully Done !');
+        Toastr::success('New Post Create Successfully Done !', 'Success');
         return redirect()->route('author.post.index');
     }
 

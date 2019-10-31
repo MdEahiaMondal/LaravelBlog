@@ -16,7 +16,7 @@
 
 
         @if($post->is_approved == false)
-            <button type="button" class="btn btn-info pull-right">
+            <button type="button"  class="btn btn-default pull-right">
                 <i class="material-icons">done</i>
                 <span>Apporove</span>
             </button>
