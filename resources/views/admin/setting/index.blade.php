@@ -15,20 +15,8 @@
             <div class="card">
                 <div class="header">
                     <h2>
-                        TABS WITH ICON TITLE
+                        SETTINGS
                     </h2>
-                    <ul class="header-dropdown m-r--5">
-                        <li class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </a>
-                            <ul class="dropdown-menu pull-right">
-                                <li><a href="javascript:void(0);" class=" waves-effect waves-block">Action</a></li>
-                                <li><a href="javascript:void(0);" class=" waves-effect waves-block">Another action</a></li>
-                                <li><a href="javascript:void(0);" class=" waves-effect waves-block">Something else here</a></li>
-                            </ul>
-                        </li>
-                    </ul>
                 </div>
                 <div class="body">
                     <!-- Nav tabs -->
@@ -52,7 +40,7 @@
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
 
-                           <form class="form-horizontal" action="{{ route('admin.profile.update') }}" method="post" enctype="multipart/form-data">
+                           <form class="form-horizontal" action="{{ route('admin.profile.update',auth()->id()) }}" method="post" enctype="multipart/form-data">
                                @csrf
 
                                 <div class="row clearfix">

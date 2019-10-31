@@ -38,7 +38,7 @@ Route::group(['as' => 'admin.','prefix' => 'admin', 'namespace' => 'Admin', 'mid
 
       // SettingsController route
     Route::get('/settings', 'SettingsController@index')->name('settings');
-    Route::post('/profile-update', 'SettingsController@profileUpdate')->name('profile.update');
+    Route::post('/profile-update/{id}', 'SettingsController@profileUpdate')->name('profile.update');
 
 
 
