@@ -207,7 +207,7 @@ Using the Notification::route method, you may specify ad-hoc
             $post->is_approved = true;
             $post->save();
 
-        $post->user->notify(new AuthorPostApproved($post));
+       $post->user->notify(new AuthorPostApproved($post));
 
         $subscribers = Subscriber::all();
             /* // On-Demand Notifications
@@ -221,7 +221,6 @@ Using the Notification::route method, you may specify ad-hoc
 
                 Notification::route('mail',$subscriber->email )->notify(new NewPostNotify($post));
             }
-
 
             Toastr::success('Post Approved Successfully', 'Success');
         }else{

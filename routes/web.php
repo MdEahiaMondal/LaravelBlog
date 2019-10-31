@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('frontend.welcome');
-})->name('welcome');
+
 
 Auth::routes();
 
@@ -53,7 +51,7 @@ Route::group(['as' => 'author.','prefix' => 'author', 'namespace' => 'Author', '
 
 // ***************************Frontend Route******************************
 Route::post('subscriber', 'Frontend\SubscriberController@store')->name('subscriber.store');
-
+Route::get('/', 'Frontend\HomeController@index')->name('home');
 
 
 
