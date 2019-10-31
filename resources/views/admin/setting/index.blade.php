@@ -29,8 +29,8 @@
                         </li>
 
                         <li role="presentation" class="active">
-                            <a href="#home_with_icon_title" data-toggle="tab">
-                                <i class="material-icons">home</i> PASSWORD
+                            <a href="#password_change_with_icon_title" data-toggle="tab">
+                                <i class="material-icons">edit</i> PASSWORD
                             </a>
                         </li>
 
@@ -104,14 +104,55 @@
                                 </div>
                            </form>
                         </div>
-                        <div role="tabpanel" class="tab-pane fade in active" id="home_with_icon_title">
-                            <b>Home Content</b>
-                            <p>
-                                Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit mediocritatem an. Pri ut tation electram moderatius.
-                                Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent aliquid
-                                pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere gubergren
-                                sadipscing mel.
-                            </p>
+                        <div role="tabpanel" class="tab-pane fade in active" id="password_change_with_icon_title">
+                            <form class="form-horizontal" action="{{ route('admin.password.update',auth()->id()) }}" method="post" enctype="multipart/form-data">
+                                @csrf
+
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="currentPassword">Current Password : </label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="password" id="currentPassword" name="currentPassword"  class="form-control" placeholder="Enter Current Password">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="password">New Password : </label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="password" id="password" name="password"  class="form-control" placeholder="Enter New Password">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="password_confirmation">Confirm Password  : </label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Enter Confirm New Password">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row clearfix">
+                                    <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
+                                        <button type="submit" class="btn btn-primary m-t-15 waves-effect">UPDATE</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
 
                     </div>

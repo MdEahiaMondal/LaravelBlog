@@ -7,6 +7,7 @@ use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Image;
@@ -70,10 +71,48 @@ class SettingsController extends Controller
         $user->image = $setImageName;
         $user->save();
 
-        Toastr::success('Profile Update Successfully Done !');
+        Toastr::success('Profile Update Successfully Done !', 'Success');
         return redirect()->back();
 
 
     }
+
+
+
+    public function passwordUpdate(Request $request, $id)
+    {
+        $this->validate($request, [
+            'currentPassword' => 'required',
+            'password' => 'required|confirmed',
+        ]);
+
+        $hashedPassword = User::findOrFail($id)->password;
+
+
+        if (Hash::check($request->currentPassword,$hashedPassword)){
+
+            if (!Hash::check($request->password, $hashedPassword)){
+                $user = User::findOrFail($id);
+                $user->password = Hash::make($request->password);
+                $user->save();
+
+                Toastr::success('Password Update Successfully Done !', 'Success');
+                auth()->logout();
+                return redirect()->back();
+            }else{
+                Toastr::error('Current Password can not be same to old password', 'Error');
+                return redirect()->back();
+            }
+
+        }else{
+            Toastr::error('Current Password does not match ', 'Error');
+            return redirect()->back();
+        }
+
+
+
+    }
+
+
 
 }
