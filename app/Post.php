@@ -36,5 +36,16 @@ class Post extends Model
     }
 
 
+    // we can use scope
+    public function scopeApproved($query)
+    {
+        return $query->where('is_approved', 1);
+    }
+
+    public function scopePublication($query)
+    {
+        return $query->where('status', 1);
+    }
+
 
 }

@@ -14,15 +14,14 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::where(['is_approved'=> true, 'status'=>true])->paginate(12);
+        $posts = Post::latest()->approved()->publication()->paginate(12); //  {{  where(['is_approved'=> true, 'status'=>true])  }}   i will use scope in post model
         return view('frontend.posts.index', compact('posts'));
     }
 
     public function singlePost($slug)
     {
-
-         $post = Post::where('slug', $slug)->first();
-        $randomPosts = Post::all()->random(3);
+        $post = Post::where('slug', $slug)->approved()->publication()->first();
+        $randomPosts = Post::approved()->publication()->take(3)->inRandomOrder()->get();  // it {{ all()->random(3) }} remove
 
         // post view count
         $blogKey = "blog_".$post->id;
@@ -38,7 +37,8 @@ class PostController extends Controller
     public function postByCategoory($slug)
     {
          $category = Category::where('slug',$slug)->first();
-         $posts = Category::where('slug',$slug)->first()->posts;
+         $posts = $category->posts()->approved()->publication()->get();
+
          return view('frontend.posts.post_by_category', compact('posts','category'));
     }
 
@@ -47,7 +47,7 @@ class PostController extends Controller
     public function postByTag($slug)
     {
          $tag = Tag::where('slug',$slug)->first();
-         $posts = Tag::where('slug',$slug)->first()->posts;
+         $posts = $tag->posts()->approved()->publication()->get();
          return view('frontend.posts.post_by_tag', compact('posts','tag'));
     }
 

@@ -13,7 +13,8 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $posts = Post::where(['is_approved'=>true, 'status'=>true])->latest()->take(6)->get();
+        $posts = Post::latest()->approved()->publication()->take(6)->get();  // where(['is_approved'=>true, 'status'=>true]) that is removed
+                                                                                        // ,, now we use laravel local scope method in post model
         return view('frontend.welcome', compact('categories','posts'));
     }
 
