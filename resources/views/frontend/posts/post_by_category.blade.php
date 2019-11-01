@@ -1,56 +1,33 @@
 @extends('frontend.master.master')
 
-@section('title', 'Welcome')
+@section('title', 'All Posts')
 
 @push('css')
-    <link href="{{ asset('frontend/css/home/styles.css') }}" rel="stylesheet">
+    <link href="{{ asset('frontend/css/posts/styles.css') }}" rel="stylesheet">
 
-    <link href="{{ asset('frontend/css/home/responsive.css') }}" rel="stylesheet">
+    <link href="{{ asset('frontend/css/posts/responsive.css') }}" rel="stylesheet">
+
     <style>
         .favorit-post{
             color: #F44336;
         }
-    </style>
 
+        .header-bg{
+            background-image: url(" {{ asset('storage/category/'.$category->image) }} ");
+        }
+    </style>
 @endpush
 
 @section('mainContent')
 
-    <div class="main-slider">
-        <div class="swiper-container position-static" data-slide-effect="slide" data-autoheight="false"
-             data-swiper-speed="500" data-swiper-autoplay="10000" data-swiper-margin="0" data-swiper-slides-per-view="4"
-             data-swiper-breakpoints="true" data-swiper-loop="true" >
-            <div class="swiper-wrapper">
-
-                @foreach($categories as $category)
-                    <div class="swiper-slide">
-                        <a class="slider-category" href="{{ route('category.posts',$category->slug) }}">
-                            <div class="blog-image"><img src="{{ asset('storage/category/slider/'.$category->image) }}" alt="{{ $category->name }}"></div>
-
-                            <div class="category">
-                                <div class="display-table center-text">
-                                    <div class="display-table-cell">
-                                        <h3><b>{{ $category->name }}</b></h3>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </a>
-                    </div><!-- swiper-slide -->
-                @endforeach
-
-
-            </div><!-- swiper-wrapper -->
-
-        </div><!-- swiper-container -->
-
+    <div class="slider header-bg display-table center-text">
+        <h1 class="title display-table-cell"><b> {{ $category->name }} </b></h1>
     </div><!-- slider -->
 
     <section class="blog-area section">
         <div class="container">
 
             <div class="row">
-
                 @foreach($posts as $post)
                     <div class="col-lg-4 col-md-6">
                         <div class="card h-100">
@@ -75,7 +52,7 @@
                                                 })"><i class="ion-heart"></i> {{ $post->favorite_to_users->count() }} </a>
                                             @else
                                                 <a href="javascript:void(0);" onclick="document.getElementById('favorite-form-{{ $post->id }}').submit()"
-                                               class="{{ !auth()->user()->favorite_posts()->where('post_id',$post->id)->count() == 0 ? 'favorit-post' : '' }}"
+                                                   class="{{ !auth()->user()->favorite_posts()->where('post_id',$post->id)->count() == 0 ? 'favorit-post' : '' }}"
                                                 >
                                                     <i class="ion-heart"></i>
                                                     {{ $post->favorite_to_users->count() }} </a>
@@ -86,7 +63,7 @@
                                                 </form>
                                             @endguest
                                         </li>
-                                        <li><a href="#"><i class="ion-chatbubble"></i>{{ $post->comments->count() }}</a></li>
+                                        <li><a href="#"><i class="ion-chatbubble"></i> {{ $post->comments->count() }} </a></li>
                                         <li><a href="#"><i class="ion-eye"></i>{{ $post->view_count }}</a></li>
                                     </ul>
 
@@ -94,15 +71,24 @@
                             </div><!-- single-post -->
                         </div><!-- card -->
                     </div><!-- col-lg-4 col-md-6 -->
-               @endforeach
+                @endforeach
 
+
+                <div class="col-sm-12">
+                    <p class="text-center">There is no post on this category</p>
+                </div>
 
             </div><!-- row -->
 
-            <a class="load-more-btn" href="#"><b>LOAD MORE</b></a>
+          {{--  <p> {{ $posts->links() }} </p>--}}
+            {{-- <a class="load-more-btn" href="#"><b>LOAD MORE</b></a>--}}
 
         </div><!-- container -->
     </section><!-- section -->
+
+
+
+
 
 @endsection
 

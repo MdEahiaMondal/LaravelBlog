@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Category;
 use App\Http\Controllers\Controller;
 use App\Post;
 use Session;
@@ -31,4 +32,14 @@ class PostController extends Controller
 
         return view('frontend.single-post.index', compact('post', 'randomPosts'));
     }
+
+
+    public function postByCategoory($slug)
+    {
+         $category = Category::where('slug',$slug)->first();
+         $posts = Category::where('slug',$slug)->first()->posts;
+         return view('frontend.posts.post_by_category', compact('posts','category'));
+    }
+
+
 }
