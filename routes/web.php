@@ -77,6 +77,10 @@ Route::post('subscriber', 'Frontend\SubscriberController@store')->name('subscrib
 Route::get('/', 'Frontend\HomeController@index')->name('home');
 
 
+// PostController
+Route::get('post/{slug}', 'Frontend\PostController@index')->name('post.details');
+
+
 Route::group(['middleware'=>['auth']], function (){
 
     Route::post('favorite/{post}/add', 'Frontend\FavoriteController@add')->name('post.favorite');

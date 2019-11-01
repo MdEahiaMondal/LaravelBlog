@@ -13,7 +13,7 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $posts = Post::latest()->take(6)->get();
+        $posts = Post::where(['is_approved'=>true, 'status'=>true])->latest()->take(6)->get();
         return view('frontend.welcome', compact('categories','posts'));
     }
 
