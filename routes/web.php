@@ -85,6 +85,7 @@ Route::get('posts', 'Frontend\PostController@index')->name('posts.index');
 Route::group(['middleware'=>['auth']], function (){
 
     Route::post('favorite/{post}/add', 'Frontend\FavoriteController@add')->name('post.favorite');
+    Route::post('comment/{post}', 'Frontend\CommentController@store')->name('comment.store');
 
 });
 
