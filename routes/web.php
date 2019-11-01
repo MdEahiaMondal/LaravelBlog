@@ -72,6 +72,11 @@ Route::group(['as' => 'author.','prefix' => 'author', 'namespace' => 'Author', '
     Route::get('/favorite', 'FavoriteController@index')->name('favorite.index');
 
 
+    //  CommentController route
+    Route::get('/comments', 'CommentController@index')->name('comment.index');
+    Route::delete('/comments/{id}', 'CommentController@destroy')->name('comment.destroy');
+
+
 });
 
 

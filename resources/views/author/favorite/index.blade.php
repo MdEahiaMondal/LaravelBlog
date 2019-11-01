@@ -28,7 +28,7 @@
                                         <th>Title</th>
                                         <th>Author</th>
                                         <th><i class="material-icons">favorite</i></th>
-                                        {{--<th><i class="material-icons">comment</i></th>--}}
+                                       <th><i class="material-icons">comment</i></th>
                                         <th><i class="material-icons">visibility</i></th>
                                         <th>Action</th>
                                     </tr>
@@ -39,7 +39,7 @@
                                         <th>Title</th>
                                         <th>Author</th>
                                         <th><i class="material-icons">favorite</i></th>
-                                      {{--  <th><i class="material-icons">comment</i></th>--}}
+                                       <th><i class="material-icons">comment</i></th>
                                         <th><i class="material-icons">visibility</i></th>
                                         <th>Action</th>
                                     </tr>
@@ -51,7 +51,7 @@
                                         <td>{{ Str::limit($post->title, 15) }}</td>
                                         <td>{{ $post->user->name }}</td>
                                         <td>{{ $post->favorite_to_users->count() }}</td>
-                                       {{-- <td>{{ $post->comment }}</td>--}}
+                                        <td>{{ $post->comments->count() }}</td>
                                         <td>{{ $post->view_count }}</td>
 
                                         <td class="text-center">
