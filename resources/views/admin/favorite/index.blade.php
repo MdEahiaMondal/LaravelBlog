@@ -55,15 +55,18 @@
                                         <td>{{ $post->view_count }}</td>
 
                                         <td class="text-center">
-                                            <button class="btn btn-danger waves-effect" type="button" onclick="deletePost({{ $post->id }})">
-                                                    <i class="material-icons">delete</i>
+
+                                            <a class="btn btn-primary" title="Edit Post" href="">
+                                                <i class="material-icons">visibility</i>
+                                            </a>
+
+                                            <button class="btn btn-danger waves-effect" type="button" onclick="removePost({{ $post->id }})">
+                                                    <i class="material-icons">remove</i>
                                             </button>
 
-                                            <form action="{{ route('admin.post.destroy', $post->id) }}" id="delete-form-{{$post->id}}"
+                                            <form action="{{ route('post.favorite', $post->id) }}" id="remove-form-{{$post->id}}"
                                                   method="post" style="display: none;">
                                                     @csrf
-                                                @method('DELETE')
-
                                             </form>
                                         </td>
                                     </tr>
@@ -144,7 +147,7 @@
 
 
 
-        function deletePost(id) {
+        function removePost(id) {
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -170,7 +173,7 @@
                         'success'
                     )*/
                    event.preventDefault();
-                   document.getElementById('delete-form-'+id).submit();
+                   document.getElementById('remove-form-'+id).submit();
 
                 } else if (
                     /* Read more about handling dismissals below */
