@@ -92,6 +92,8 @@ Route::group(['as' => 'author.','prefix' => 'author', 'namespace' => 'Author', '
 
 
 // ***************************Frontend Route******************************
+
+//  subscriber Route
 Route::post('subscriber', 'Frontend\SubscriberController@store')->name('subscriber.store');
 Route::get('/', 'Frontend\HomeController@index')->name('home');
 
@@ -101,6 +103,10 @@ Route::get('post/{slug}', 'Frontend\PostController@singlePost')->name('post.deta
 Route::get('posts', 'Frontend\PostController@index')->name('posts.index');
 Route::get('category/{slug}', 'Frontend\PostController@postByCategoory')->name('category.posts');
 Route::get('tag/{slug}', 'Frontend\PostController@postByTag')->name('tag.posts');
+
+
+// AuthorController
+Route::get('profile/{slug}', 'Frontend\AuthorController@profile')->name('profile.post');
 
 
 // Search controole
