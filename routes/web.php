@@ -78,7 +78,8 @@ Route::get('/', 'Frontend\HomeController@index')->name('home');
 
 
 // PostController
-Route::get('post/{slug}', 'Frontend\PostController@index')->name('post.details');
+Route::get('post/{slug}', 'Frontend\PostController@singlePost')->name('post.details');
+Route::get('posts', 'Frontend\PostController@index')->name('posts.index');
 
 
 Route::group(['middleware'=>['auth']], function (){

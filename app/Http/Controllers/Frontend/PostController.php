@@ -9,7 +9,14 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index($slug)
+
+    public function index()
+    {
+        $posts = Post::where(['is_approved'=> true, 'status'=>true])->paginate(12);
+        return view('frontend.posts.index', compact('posts'));
+    }
+
+    public function singlePost($slug)
     {
 
          $post = Post::where('slug', $slug)->first();
