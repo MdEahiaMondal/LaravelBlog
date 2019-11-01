@@ -93,6 +93,11 @@ Route::get('category/{slug}', 'Frontend\PostController@postByCategoory')->name('
 Route::get('tag/{slug}', 'Frontend\PostController@postByTag')->name('tag.posts');
 
 
+// Search controole
+Route::get('search', 'Frontend\SearchController@search')->name('search.posts');
+
+
+
 Route::group(['middleware'=>['auth']], function (){
 
     Route::post('favorite/{post}/add', 'Frontend\FavoriteController@add')->name('post.favorite');
