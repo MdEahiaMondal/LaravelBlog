@@ -58,4 +58,11 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class); // one user can comment more
     }
 
+
+    public function scopeAuthors($query)
+    {
+        return $query->where('role_id', 2);
+    }
+
+
 }

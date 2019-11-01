@@ -19,7 +19,7 @@ Auth::routes();
 
 
 
-// ****************************Admin Route*********************
+// ****************************Start Admin Route*********************
 Route::group(['as' => 'admin.','prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
 
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
@@ -52,7 +52,17 @@ Route::group(['as' => 'admin.','prefix' => 'admin', 'namespace' => 'Admin', 'mid
 
 
 
+    // Authors Controller
+    Route::get('/authors', 'AuthorsController@index')->name('author.index');
+    Route::delete('/author.{$id}', 'AuthorsController@destroy')->name('author.destroy');
+
+
+
 });
+
+// ****************************end Admin Route*********************
+
+
 
 
 // ***************************Author Route******************************
