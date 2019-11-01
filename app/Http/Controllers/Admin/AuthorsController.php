@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
 class AuthorsController extends Controller
@@ -21,7 +22,10 @@ class AuthorsController extends Controller
 
     public function destroy($id)
     {
+        User::findOrFail($id)->delete();
 
+        Toastr::success('Author Deleted Successfully', 'Success');
+        return redirect()->back();
     }
 
 }

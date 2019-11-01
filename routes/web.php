@@ -54,7 +54,7 @@ Route::group(['as' => 'admin.','prefix' => 'admin', 'namespace' => 'Admin', 'mid
 
     // Authors Controller
     Route::get('/authors', 'AuthorsController@index')->name('author.index');
-    Route::delete('/author.{$id}', 'AuthorsController@destroy')->name('author.destroy');
+    Route::delete('/author/{id}', 'AuthorsController@destroy')->name('author.destroy');
 
 
 

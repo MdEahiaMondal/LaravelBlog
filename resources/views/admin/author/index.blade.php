@@ -61,7 +61,7 @@
                                                 <i class="material-icons">delete</i>
                                             </button>
 
-                                            <form action="{{ route('admin.author.destroy', $author->id) }}" id="delete-form-{{$author->id}}"
+                                            <form action="{{ route('admin.author.destroy',$author->id) }}" id="delete-form-{{$author->id}}"
                                                   method="post" style="display: none;">
                                                 @csrf
                                                 @method('DELETE')
