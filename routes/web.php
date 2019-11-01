@@ -90,6 +90,7 @@ Route::get('/', 'Frontend\HomeController@index')->name('home');
 Route::get('post/{slug}', 'Frontend\PostController@singlePost')->name('post.details');
 Route::get('posts', 'Frontend\PostController@index')->name('posts.index');
 Route::get('category/{slug}', 'Frontend\PostController@postByCategoory')->name('category.posts');
+Route::get('tag/{slug}', 'Frontend\PostController@postByTag')->name('tag.posts');
 
 
 Route::group(['middleware'=>['auth']], function (){

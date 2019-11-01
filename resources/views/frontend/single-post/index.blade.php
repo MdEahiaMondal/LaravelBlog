@@ -107,7 +107,7 @@
                             <ul class="mb-4">
                                 @if($post->categories->count() != 0)
                                     @foreach($post->categories as $category)
-                                        <li><a href="#">{{ $category->name }}</a></li>
+                                        <li><a href="{{ route('category.posts', $category->slug) }}">{{ $category->name }}</a></li>
                                     @endforeach
                                     @else
                                     <li>There is no category</li>
@@ -121,7 +121,7 @@
 
                                 @if($post->tags->count() != 0)
                                     @foreach($post->tags as $tag)
-                                        <li><a href="#">{{ $tag->name }}</a></li>
+                                        <li><a href="{{ route('tag.posts', $tag->slug) }}">{{ $tag->name }}</a></li>
                                     @endforeach
                                 @else
                                     <li>There is no tag</li>

@@ -12,16 +12,14 @@
             color: #F44336;
         }
 
-        .header-bg{
-            background-image: url(" {{ asset('storage/category/'.$category->image) }} ");
-        }
+
     </style>
 @endpush
 
 @section('mainContent')
 
-    <div class="slider header-bg display-table center-text">
-        <h1 class="title display-table-cell"><b> {{ $category->name }} </b></h1>
+    <div class="slider display-table center-text">
+        <h1 class="title display-table-cell"><b> {{ $tag->name }} </b></h1>
     </div><!-- slider -->
 
     <section class="blog-area section">
@@ -83,7 +81,7 @@
 
             </div><!-- row -->
 
-          {{--  <p> {{ $posts->links() }} </p>--}}
+            {{--  <p> {{ $posts->links() }} </p>--}}
             {{-- <a class="load-more-btn" href="#"><b>LOAD MORE</b></a>--}}
 
         </div><!-- container -->
