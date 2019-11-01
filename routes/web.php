@@ -101,6 +101,11 @@ Route::group(['middleware'=>['auth']], function (){
 });
 
 
+View::composer('frontend/parsials/footer', function ($view){ // it will use only footer without any route controller
+   $categories = \App\Category::all();
+   $view->with('categories', $categories);
+});
+
 
 
 
