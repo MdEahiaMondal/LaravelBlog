@@ -64,6 +64,10 @@ Route::group(['as' => 'author.','prefix' => 'author', 'namespace' => 'Author', '
     Route::post('/password-update/{id}', 'SettingsController@passwordUpdate')->name('password.update');
 
 
+    // FavoriteController route
+    Route::get('/favorite', 'FavoriteController@index')->name('favorite.index');
+
+
 });
 
 
