@@ -77,6 +77,13 @@
                     </a>
                 </li>
 
+                <li class="{{ Request::is('admin/favorite*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.favorite.index') }}">
+                        <i class="material-icons">favorite</i>
+                        <span>Favorite Posts</span>
+                    </a>
+                </li>
+
                 <li class="{{ Request::is('admin/subscriber') ? 'active' : '' }}">
                     <a href="{{ route('admin.subscriber.index') }}">
                         <i class="material-icons">people</i>
