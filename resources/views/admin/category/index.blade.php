@@ -33,6 +33,7 @@
                                 <thead>
                                 <tr>
                                     <th>SI</th>
+                                    <th>Image</th>
                                     <th>Name</th>
                                     <th>Post count</th>
                                     <th>Created At</th>
@@ -43,6 +44,7 @@
                                 <tfoot>
                                 <tr>
                                     <th>SI</th>
+                                    <th>Image</th>
                                     <th>Name</th>
                                     <th>Post count</th>
                                     <th>Created At</th>
@@ -55,6 +57,7 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $category->name }}</td>
+                                        <td><img width="50%" src="{{ $category->image }}" alt=""></td>
                                         <td> <span class="badge" style="background: #F44336;">{{ $category->posts->count() }}</span> </td>
                                         <td>{{ $category->created_at }}</td>
                                         <td>{{ $category->updated_at }}</td>
