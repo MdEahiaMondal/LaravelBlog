@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
@@ -45,6 +46,11 @@ class Post extends Model
     public function scopePublication($query)
     {
         return $query->where('status', 1);
+    }
+
+
+    public function scopeMostCommented(Builder $builder){
+        return $builder->withCount('comments')->orderBy('comments_count', 'desc');
     }
 
 

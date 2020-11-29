@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -38,14 +40,28 @@ class User extends Authenticatable
     ];
 
 
-    public function role(){
-         return $this->belongsTo(Role::class); // one user for one role
+    public function role()
+    {
+        return $this->belongsTo(Role::class); // one user for one role
     }
 
 
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function scopeWithMostPosts(Builder $builder)
+    { // most active users who are posts more
+        return $builder->withCount('posts')->orderBy('posts_count', 'desc');
+    }
+
+    public function scopeMostActiveUsersLastMonth(Builder $builder)
+    {
+        return $builder->withCount(['posts' => function (Builder $builder) {
+            $builder->whereBetween(static::CREATED_AT, [now()->subMonth(1), now()]);
+        }])->having('posts_count', '>=', 2)
+            ->orderBy('posts_count', 'desc');
     }
 
     public function favorite_posts()  /* one user can favarite more post*/
