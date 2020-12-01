@@ -46,6 +46,7 @@
                                 <div class="middle-area">
                                     <a class="name" href="#"><b>{{ $post->user->name }}</b></a>
                                     <h6 class="date">on {{ $post->created_at->diffForHumans() }}</h6>
+                                    <p>Current read by {{ $counter }} people </p>
                                 </div>
 
                             </div><!-- post-info -->

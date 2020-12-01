@@ -12,7 +12,7 @@ $factory->define(Post::class, function (Faker $faker) {
         'title' => $title,
         'slug' => Str::slug($title),
         'image' => $faker->imageUrl(1600, 1066),
-        'body' => $faker->paragraph,
+        'body' => $faker->paragraphs(random_int(5,20), true),
         'view_count' =>random_int(0,100),
         'status' => random_int(0,1),
         'is_approved' => random_int(0,1),
