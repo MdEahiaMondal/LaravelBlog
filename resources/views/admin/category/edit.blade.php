@@ -24,18 +24,27 @@
                         <form action="{{ route('admin.category.update',$category->id) }}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
+
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <input type="text" id="name" name="name" value="{{ $category->name }}"  class="form-control">
                                     <label for="name" class="form-label">Category Name here...</label>
                                 </div>
                             </div>
-
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="">Background Image</label>
+                                    <input type="file" id="background_image" name="background_image" class="form-control">
+                                </div>
+                                <img width="50%" src="{{ $category->background_image }}" alt="">
+                            </div>
 
                             <div class="form-group form-float">
                                 <div class="form-line">
-                                    <input type="file" id="image" name="image" class="form-control">
+                                    <label for="">Slider Image</label>
+                                    <input type="file" id="image" name="slider_image" class="form-control">
                                 </div>
+                                <img width="50%" src="{{ $category->slider_image }}" alt="">
                             </div>
 
                             <a class="btn btn-warning m-t-15 waves-effect" href="{{ route('admin.category.index') }}">BACK</a>

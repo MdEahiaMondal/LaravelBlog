@@ -21,8 +21,8 @@ class PostController extends Controller
 
     public function singlePost($slug)
     {
-        $post = Post::where('slug', $slug)->approved()->publication()->first();
-        $randomPosts = Post::approved()->publication()->take(3)->inRandomOrder()->get();  // it {{ all()->random(3) }} remove
+        $post = Post::with('user', 'comments', 'comments.user', 'tags', 'favorite_to_users', 'categories')->where('slug', $slug)->approved()->publication()->first();
+        $randomPosts = Post::with('user', 'comments', 'tags', 'favorite_to_users')->approved()->publication()->take(3)->inRandomOrder()->get();  // it {{ all()->random(3) }} remove
 
         // post view count
         $blogKey = "blog_" . $post->id;

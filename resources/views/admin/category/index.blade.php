@@ -36,8 +36,6 @@
                                     <th>Image</th>
                                     <th>Name</th>
                                     <th>Post count</th>
-                                    <th>Created At</th>
-                                    <th>Updated At</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -47,8 +45,6 @@
                                     <th>Image</th>
                                     <th>Name</th>
                                     <th>Post count</th>
-                                    <th>Created At</th>
-                                    <th>Updated At</th>
                                     <th>Action</th>
                                 </tr>
                                 </tfoot>
@@ -57,10 +53,8 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $category->name }}</td>
-                                        <td><img width="50%" src="{{ $category->image }}" alt=""></td>
+                                        <td width="50%"><img width="50%" src="{{ $category->background_image }}" alt=""></td>
                                         <td> <span class="badge" style="background: #F44336;">{{ $category->posts->count() }}</span> </td>
-                                        <td>{{ $category->created_at }}</td>
-                                        <td>{{ $category->updated_at }}</td>
                                         <td class="text-center">
                                             <a class="btn btn-primary" title="Edit Item" href="{{ route('admin.category.edit',$category->id) }}">
                                                 <i class="material-icons">edit</i>

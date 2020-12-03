@@ -36,6 +36,7 @@
    {{-- toaster message css link--}}
     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
 
+    @notifyCss
 
     @stack('css')
 
@@ -126,6 +127,10 @@
 {!! Toastr::message() !!}
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+@include('notify::messages')
+
+@notifyJs
 
 {{--//  any type of errors globaly  show --}}
 <script>

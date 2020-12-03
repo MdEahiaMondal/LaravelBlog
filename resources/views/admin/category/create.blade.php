@@ -25,15 +25,22 @@
                             @csrf
                             <div class="form-group form-float">
                                 <div class="form-line">
-                                    <input type="text" id="name" name="name" value="{{ old('name') }}"  class="form-control">
                                     <label for="name" class="form-label">Category Name here...</label>
+                                    <input type="text" id="name" name="name" value="{{ old('name') }}"  class="form-control">
                                 </div>
                             </div>
 
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="">Background Image</label>
+                                    <input type="file" id="background_image" name="background_image" class="form-control">
+                                </div>
+                            </div>
 
                             <div class="form-group form-float">
                                 <div class="form-line">
-                                    <input type="file" id="image" name="image" class="form-control">
+                                    <label for="">Slider Image</label>
+                                    <input type="file" id="image" name="slider_image" class="form-control">
                                 </div>
                             </div>
 
