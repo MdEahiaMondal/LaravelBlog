@@ -39,14 +39,24 @@ class Post extends Model
     }
 
 
-    public function categories()
+   /* public function categories()
     {
         return $this->belongsToMany(Category::class)->withTimestamps();
+    }*/
+
+    public function categories()
+    {
+        return $this->morphToMany(Category::class, 'categoryable')->withTimestamps();
     }
+
+  /*  public function tags()
+    {
+        return $this->belongsToMany(Tag::class)->withTimestamps();
+    }*/
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class)->withTimestamps();
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
 

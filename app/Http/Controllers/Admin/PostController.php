@@ -55,7 +55,9 @@ class PostController extends Controller
             ]);
 
             $post->categories()->attach($request->categories);
+
             $post->tags()->attach($request->tags);
+
 
             // upload an image using helper function
             $image_url = Helpers::upload($request, 'image', '', 'posts', 1600, 1066);
@@ -119,8 +121,6 @@ class PostController extends Controller
 
     public function update(PostRequest $request, Post $post)
     {
-
-
         DB::beginTransaction();
 
         try {

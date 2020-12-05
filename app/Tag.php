@@ -9,9 +9,15 @@ class Tag extends Model
    protected $fillable = ['tag', 'name'];
 
 
-    public function posts()
+  /*  public function posts()
     {
         return $this->belongsToMany(Post::class)->withTimestamps();
+    }*/
+
+
+    public function posts()
+    {
+        return $this->morphedByMany(Post::class, 'taggable');
     }
 
 }

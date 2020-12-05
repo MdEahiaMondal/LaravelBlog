@@ -33,9 +33,14 @@ class Category extends Model
     }
 
 
-   public function posts()
+   /*public function posts()
    {
        return $this->belongsToMany(Post::class)->withTimestamps();
+   }*/
+
+   public function posts()
+   {
+       return $this->morphedByMany(Post::class, 'categoryable')->withTimestamps();
    }
 
 
