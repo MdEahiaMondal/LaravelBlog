@@ -12,7 +12,7 @@
     <div class="container-fluid">
         <!-- Vertical Layout | With Floating Label -->
 
-        <a href="{{ route('admin.post.index') }}" class="btn btn-warning">BACK</a>
+        <a href="{{ route('admin.posts.index') }}" class="btn btn-warning">BACK</a>
 
 
         @if($post->is_approved == false)
@@ -28,7 +28,7 @@
             @endif
 
 
-        <form method="post" style="display: none" action="{{ route('admin.post.approve', $post->id) }}" id="approve-form">
+        <form method="post" style="display: none" action="{{ route('admin.posts.approve', $post->id) }}" id="approve-form">
             @csrf
             @method('PUT')
         </form>
@@ -82,7 +82,7 @@
                             <h2>IMAGE</h2>
                         </div>
                         <div class="body">
-                            <img class="img img-thumbnail" width="350" src="{{ Storage::url('post/'.$post->image) }}" alt="">
+                            <img class="img img-thumbnail" width="350" src="{{ $post->image_path }}" alt="">
                         </div>
                     </div>
 

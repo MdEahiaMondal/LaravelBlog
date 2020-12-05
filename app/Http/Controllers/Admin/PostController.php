@@ -4,17 +4,22 @@ namespace App\Http\Controllers\Admin;
 
 use App\Category;
 use App\Http\Controllers\Controller;
+use App\Http\Helpers\Helpers;
+use App\Http\Requests\PostRequest;
 use App\Notifications\AuthorPostApproved;
 use App\Notifications\NewPostNotify;
 use App\Post;
 use App\Subscriber;
 use App\Tag;
 use Brian2694\Toastr\Facades\Toastr;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Illuminate\View\View;
 use Image;
 
 class PostController extends Controller
@@ -31,164 +36,130 @@ class PostController extends Controller
     {
         $categories = Category::all();
         $tags = Tag::all();
-       return view('admin.post.create', compact('categories', 'tags'));
+        return view('admin.post.create', compact('categories', 'tags'));
     }
 
 
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-       $this->validate($request, [
-          'title' => 'required|string',
-          'image' => 'required|mimes:jpg,jpeg,png',
-          'categories' => 'required',
-          'tags' => 'required',
-          'body' => 'required',
-       ]);
 
-       $image = $request->file('image');
-        $slug = Str::slug($request->title,'-');
-       if (isset($image)){
+        DB::beginTransaction();
 
-           // set image name
-           $currentdataTime = Carbon::now()->toDateString();
-           $setImageName = $slug . '-' . $currentdataTime . '-' . uniqid() .'.'.$image->getClientOriginalExtension();
+        try {
+            $post = Post::create([
+                'user_id' => Auth::id(),
+                'title' => $request->title,
+                'body' => $request->body,
+                'status' => $request->status ? true : false,
+                'is_approved' => true,
+            ]);
 
-           // check dir
-           if (!Storage::disk('public')->exists('post')){
-               Storage::disk('public')->makeDirectory('post');
-           }
+            $post->categories()->attach($request->categories);
+            $post->tags()->attach($request->tags);
 
-           // make image
-           $postImage = Image::make($image)->resize(1600,1066)->stream();
+            // upload an image using helper function
+            $image_url = Helpers::upload($request, 'image', '', 'posts', 1600, 1066);
+            $post->image()->create([ // save an image
+                'path' => $image_url
+            ]);
 
-           // upload right dir
-           Storage::disk('public')->put('post/'.$setImageName,$postImage);
+            /*
+            $subscribers = Subscriber::all();
+            $image_url = Helpers::upload($request, 'image', '' , 'posts', 1600, 1066);
 
-       }else{
-           $setImageName = 'default.png';
-       }
+            /* On-Demand Notifications
+                 Sometimes you may need to send a notification to
+                 someone who is not stored as a "user" of your application.
+                Using the Notification::route method, you may specify ad-hoc
+                 notification routing information before
+                sending the notification:*/
 
-       $post = new Post();
-       $post->user_id = auth()->id();
-       $post->title = $request->title;
-       $post->slug = $slug;
-       $post->image = $setImageName;
-       $post->body = $request->body;
+            /* foreach ($subscribers as $subscriber) {
 
-       if (isset($request->status)){
-           $post->status = true;
-       }else{
-           $post->status = false;
-       }
+                 Notification::route('mail', $subscriber->email)->notify(new NewPostNotify($post));
+             }*/
 
-       $post->is_approved = true;
-       $post->save();
+            Toastr::success('New Post Create Successfully Done !');
 
-       $post->categories()->attach($request->categories);
-       $post->tags()->attach($request->tags);
+            DB::commit();
 
+            return redirect()->route('admin.posts.index');
 
-        $subscribers = Subscriber::all();
-
-        /* // On-Demand Notifications
- Sometimes you may need to send a notification to
- someone who is not stored as a "user" of your application.
-Using the Notification::route method, you may specify ad-hoc
- notification routing information before
-        sending the notification:*/
-
-        foreach ($subscribers as $subscriber){
-
-            Notification::route('mail',$subscriber->email )->notify(new NewPostNotify($post));
+        } catch (\Exception $exception) {
+            report($exception);
+            DB::rollBack();
+            return redirect()->back()->with('error', $exception->getMessage());
         }
-
-       Toastr::success('New Post Create Successfully Done !');
-       return redirect()->route('admin.post.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Post  $post
-     * @return \Illuminate\Http\Response
+     * @param Post $post
+     * @return Application|Factory|Response|View
      */
     public function show(Post $post)
     {
-        return  view('admin.post.show', compact('post'));
+        return view('admin.post.show', compact('post'));
     }
+
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Post  $post
-     * @return \Illuminate\Http\Response
+     * @param Post $post
+     * @return Response
      */
     public function edit(Post $post)
     {
         $categories = Category::all();
         $tags = Tag::all();
-        return view('admin.post.edit', compact('post','categories', 'tags'));
+        return view('admin.post.edit', compact('post', 'categories', 'tags'));
     }
 
 
-
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
-        $this->validate($request, [
-            'title' => 'required|string',
-            'image' => 'image',
-            'categories' => 'required',
-            'tags' => 'required',
-            'body' => 'required',
-        ]);
 
-        $image = $request->file('image');
-        $slug = Str::slug($request->title,'-');
-        if (isset($image)){
 
-            // set image name
-            $currentdataTime = Carbon::now()->toDateString();
-            $setImageName = $slug . '-' . $currentdataTime . '-' . uniqid() .'.'.$image->getClientOriginalExtension();
+        DB::beginTransaction();
 
-            // check dir
-            if (!Storage::disk('public')->exists('post')){
-                Storage::disk('public')->makeDirectory('post');
+        try {
+
+            $post->update([
+                'title' => $request->title,
+                'body' => $request->body,
+                'status' => isset($request->status) ? true : $post->status,
+            ]);
+
+            $post->categories()->sync($request->categories); // (sync) it delete old post tags and category and update new
+            $post->tags()->sync($request->tags);
+
+            if ($request->hasFile('image')) {
+                if (Storage::exists($post->image->path)) {
+                    Storage::delete($post->image->path);
+                }
+                // upload new one
+                $image_url = Helpers::upload($request, 'image', '', 'posts', 1600, 1066);
+
+            } else {
+                $image_url = $post->image->path;
             }
 
-            // delete old image
-            if (Storage::disk('public')->exists('post/'.$post->image)){
-                Storage::disk('public')->delete('post/'.$post->image);
-            }
+            $post->image()->update([ // save an image
+                'path' => $image_url,
+            ]);
 
-            // make image
-            $postImage = Image::make($image)->resize(1600,1066)->stream();
+            DB::commit();
 
-            // upload right dir
-            Storage::disk('public')->put('post/'.$setImageName,$postImage);
+            Toastr::success('Post Update Successfully Done !');
+            return redirect()->route('admin.post.index');
 
-        }else{
-            $setImageName = $post->image;
+        } catch (\Exception $exception) {
+            report($exception);
+            DB::rollBack();
+            return redirect()->back()->with('error', $exception->getMessage());
         }
 
-        $post->user_id = auth()->id();
-        $post->title = $request->title;
-        $post->slug = $slug;
-        $post->image = $setImageName;
-        $post->body = $request->body;
-
-        if (isset($request->status)){
-            $post->status = true;
-        }else{
-            $post->status = false;
-        }
-
-        $post->is_approved = true;
-        $post->save();
-
-        $post->categories()->sync($request->categories); // (sync) it delete old post tags and category and update new
-        $post->tags()->sync($request->tags);
-
-        Toastr::success('Post Update Successfully Done !');
-        return redirect()->route('admin.post.index');
     }
 
 
@@ -199,17 +170,15 @@ Using the Notification::route method, you may specify ad-hoc
     }
 
 
-    public function approval($id)
+    public function approval(Post $post)
     {
-        $post = Post::find($id);
-
-        if ($post->is_approved == false){
+        if ($post->is_approved == false) {
             $post->is_approved = true;
             $post->save();
 
-       $post->user->notify(new AuthorPostApproved($post));
+//            $post->user->notify(new AuthorPostApproved($post));
 
-        $subscribers = Subscriber::all();
+            /*   $subscribers = Subscriber::all();*/
             /* // On-Demand Notifications
      Sometimes you may need to send a notification to
      someone who is not stored as a "user" of your application.
@@ -217,13 +186,13 @@ Using the Notification::route method, you may specify ad-hoc
      notification routing information before
             sending the notification:*/
 
-            foreach ($subscribers as $subscriber){
+            /* foreach ($subscribers as $subscriber) {
 
-                Notification::route('mail',$subscriber->email )->notify(new NewPostNotify($post));
-            }
+                 Notification::route('mail', $subscriber->email)->notify(new NewPostNotify($post));
+             }*/
 
             Toastr::success('Post Approved Successfully', 'Success');
-        }else{
+        } else {
             Toastr::info('Post Already Approved ', 'Warning');
         }
 
@@ -231,20 +200,20 @@ Using the Notification::route method, you may specify ad-hoc
     }
 
 
-
     public function destroy(Post $post)
     {
 
-            if ( Storage::disk('public')->exists('post/'.$post->image) ){
-                Storage::disk('public')->delete('post/'.$post->image);
-            }
+        if (Storage::exists($post->image->path)) {
+            Storage::delete($post->image->path);
+        }
 
-            $post->categories()->detach(); // it will delete related category_post table
-            $post->tags()->detach(); // it will delete related post_tag table
+        $post->categories()->detach(); // it will delete related category_post table
+        $post->tags()->detach(); // it will delete related post_tag table
+        $post->image()->delete(); // it will delete related images table
 
-            $post->delete();
-            Toastr::success('Post Deleted Successfully Done !');
-            return redirect()->route('admin.post.index');
+        $post->delete();
+        Toastr::success('Post Deleted Successfully Done !');
+        return redirect()->route('admin.posts.index');
 
     }
 }

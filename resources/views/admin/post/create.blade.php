@@ -17,7 +17,7 @@
 
     <div class="container-fluid">
         <!-- Vertical Layout | With Floating Label -->
-        <form action="{{ route('admin.post.store') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('admin.posts.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row clearfix">
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">

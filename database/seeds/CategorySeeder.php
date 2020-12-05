@@ -1,7 +1,9 @@
 <?php
 
 use App\Category;
+use App\Image;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
@@ -34,9 +36,18 @@ class CategorySeeder extends Seeder
             Category::create([
                 'name' => $category['name'],
                 'slug' => Str::slug($category['name']),
-                'image' => $category['image'],
             ]);
         }
 
+        $faker = Faker\Factory::create();
+        Category::all()->each(function (Category $category) use ($faker){
+            $category->images()->delete(); // first delete old data
+            for($i=0; $i <= 2; $i++){
+                $category->images()->create([
+                    'path' => $faker->imageUrl(),
+                    'cat_type' => Arr::random(['slider', 'background']),
+                ]);
+            }
+        });
     }
 }

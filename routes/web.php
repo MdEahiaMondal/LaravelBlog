@@ -25,11 +25,10 @@ Route::group(['as' => 'admin.','prefix' => 'admin', 'namespace' => 'Admin', 'mid
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
     Route::resource('tag', 'TagController');
     Route::resource('category', 'CategoryController');
-    Route::resource('post', 'PostController');
+    Route::resource('posts', 'PostController');
 
-
-    Route::get('pending/post', 'PostController@pending')->name('post.pending');
-    Route::put('post/{id}/approve', 'PostController@approval')->name('post.approve');
+    Route::get('pending/posts', 'PostController@pending')->name('posts.pending');
+    Route::put('posts/{post}/approve', 'PostController@approval')->name('posts.approve');
 
 
     // subscriber route

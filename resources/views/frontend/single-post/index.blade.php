@@ -13,7 +13,7 @@
         }
 
         .header-bg{
-            background-image: url(" {{ asset('storage/post/'.$post->image) }} ");
+            background-image: url(" {{ $post->image_path }} ");
         }
     </style>
 
@@ -150,7 +150,7 @@
                         <div class="card h-100">
                             <div class="single-post post-style-1">
 
-                                <div class="blog-image"><img src="{{ asset('storage/post/'.$randomPost->image) }}" alt="Post Image"></div>
+                                <div class="blog-image"><img src="{{ $randomPost->image_path }}" alt="Post Image"></div>
 
                                 <a class="avatar" href="{{ route('profile.post',$randomPost->user->username) }}"><img src="{{ asset('storage/profile/'.$randomPost->user->image) }}" alt="Profile Image"></a>
 

@@ -17,7 +17,7 @@
 
     <div class="container-fluid">
         <!-- Vertical Layout | With Floating Label -->
-        <form action="{{ route('admin.post.update', $post->id) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('admin.posts.update', $post->id) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="row clearfix">
@@ -76,7 +76,6 @@
                                 </div>
                             </div>
 
-
                             <div class="form-group form-float">
                                 <div class="form-line {{ $errors->has('tags') ? 'focused error' : '' }}">
                                     <label for="tag">Select Tag</label>
@@ -90,8 +89,16 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="card">
+                                <div class="header" style="background: #c1380e">
+                                    <h2>IMAGE</h2>
+                                </div>
+                                <div class="body">
+                                    <img class="img img-thumbnail" width="350" src="{{ $post->image_path }}" alt="">
+                                </div>
+                            </div>
 
-                            <a class="btn btn-warning m-t-15 waves-effect" href="{{ route('admin.post.index') }}">BACK</a>
+                            <a class="btn btn-warning m-t-15 waves-effect" href="{{ route('admin.posts.index') }}">BACK</a>
                             <button type="submit" class="btn btn-primary m-t-15 waves-effect">SUBMIT</button>
                         </div>
                     </div>

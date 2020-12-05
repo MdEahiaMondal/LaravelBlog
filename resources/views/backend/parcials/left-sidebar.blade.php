@@ -63,7 +63,7 @@
 
 
                 <li class="{{ Request::is('admin/post*') ? 'active' : '' }}">
-                    <a href="{{ route('admin.post.index') }}">
+                    <a href="{{ route('admin.posts.index') }}">
                         <i class="material-icons">library_books</i>
                         <span>Posts</span>
                     </a>
@@ -71,7 +71,7 @@
 
 
                 <li class="{{ Request::is('admin/pending/post*') ? 'active' : '' }}">
-                    <a href="{{ route('admin.post.pending') }}">
+                    <a href="{{ route('admin.posts.pending') }}">
                         <i class="material-icons">library_books</i>
                         <span>Pending Posts</span>
                     </a>

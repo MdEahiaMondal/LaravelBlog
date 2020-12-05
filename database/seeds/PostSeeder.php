@@ -16,11 +16,11 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
-        User::all()->each(function (User $user){
-            $post = factory(Post::class, random_int(5,30))->make();
-            $user->posts()->saveMany($post);
+        $faker = \Faker\Factory::create();
+        Post::all()->each(function (Post $post) use($faker){
+            $post->image()->create([
+                'path' => $faker->imageUrl(1600,1066)
+            ]);
         });
-
-
     }
 }

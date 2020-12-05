@@ -58,7 +58,7 @@
                                 <div class="card h-100">
                                     <div class="single-post post-style-1">
 
-                                        <div class="blog-image"><img src="{{ asset('storage/post/'.$post->image) }}"
+                                        <div class="blog-image"><img src="{{ $post->image_path }}"
                                                                      alt=" {{ $post->title }} "></div>
 
                                         <a class="avatar" href="{{ route('profile.post',$post->user->username) }}"><img

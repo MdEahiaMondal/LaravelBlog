@@ -12,7 +12,7 @@
     <div class="container-fluid">
         <div class="block-header">
             <h2 >
-                <a class="btn btn-primary" href="{{ route('admin.post.create') }}">
+                <a class="btn btn-primary" href="{{ route('admin.posts.create') }}">
                     <i class="material-icons">add</i>
                     <span> Add New Post</span>
                 </a>
@@ -82,19 +82,19 @@
                                         <td>{{ $post->updated_at }}</td>
                                         <td class="text-center">
 
-                                            <a class="btn btn-success" title="Show Post" href="{{ route('admin.post.show',$post->id) }}">
+                                            <a class="btn btn-success" title="Show Post" href="{{ route('admin.posts.show',$post->slug) }}">
                                                 <i class="material-icons">visibility</i>
                                             </a>
 
-                                            <a class="btn btn-primary" title="Edit Post" href="{{ route('admin.post.edit',$post->id) }}">
+                                            <a class="btn btn-primary" title="Edit Post" href="{{ route('admin.posts.edit',$post->slug) }}">
                                                 <i class="material-icons">edit</i>
                                             </a>
 
-                                            <button class="btn btn-danger waves-effect" type="button" onclick="deletePost({{ $post->id }})">
+                                            <button class="btn btn-danger waves-effect" type="button" onclick="deletePost({{ $post->slug }})">
                                                     <i class="material-icons">delete</i>
                                             </button>
 
-                                            <form action="{{ route('admin.post.destroy', $post->id) }}" id="delete-form-{{$post->id}}"
+                                            <form action="{{ route('admin.posts.destroy', $post->slug) }}" id="delete-form-{{$post->slug}}"
                                                   method="post" style="display: none;">
                                                     @csrf
                                                 @method('DELETE')
