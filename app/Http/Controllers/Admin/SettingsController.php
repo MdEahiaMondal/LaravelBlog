@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Helpers\Helpers;
 use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -22,61 +24,53 @@ class SettingsController extends Controller
 
     public function profileUpdate(Request $request, $id)
     {
-
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|unique:users,email,'.$id.',id',
+            'email' => 'required|unique:users,email,' . $id . ',id',
             'image' => 'nullable:image',
             'about' => 'nullable|string',
         ]);
 
-        $image = $request->file('image');
+        DB::beginTransaction();
+        try {
 
-        $user = User::findOrFail(auth()->id());
-        $slug = Str::slug($request->name,'-');
+            $image = $request->file('image');
 
+            $user = User::findOrFail(auth()->id());
 
-        if (isset($image)){
+            $slug = Str::slug($request->name, '-');
 
-
-            // set image name
-            $currentdataTime = Carbon::now()->toDateString();
-            $setImageName = $slug . '-' . $currentdataTime . '-' . uniqid() .'.'.$image->getClientOriginalExtension();
-
-
-            // check dir
-            if (!Storage::disk('public')->exists('profile')){
-                Storage::disk('public')->makeDirectory('profile');
+            if (isset($image)) {
+                $image_url = Helpers::upload($request, 'image', '', 'users', 500, 500);
+                if (Storage::exists($user->profileImage->path)) {
+                    Storage::delete($user->profileImage->path);
+                }
+                $user->profileImage()->delete();
+                $user->profileImage()->create([
+                    'path' => $image_url
+                ]);
+            } else {
+                $image_url = $user->profileImage->path;
             }
 
-            // delete old image
-            if (Storage::disk('public')->exists('profile/'.$user->image)){
-                Storage::disk('public')->delete('profile/'.$user->image);
-            }
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->username = $slug;
+            $user->about = $request->about;
+            $user->image = $image_url;
+            $user->save();
 
-            // make image
-            $profileImage = Image::make($image)->resize(500,500)->stream();
+            DB::commit();
 
-            // upload right dir
-            Storage::disk('public')->put('profile/'.$setImageName,$profileImage);
+            Toastr::success('Profile Update Successfully Done !', 'Success');
+            return redirect()->back();
 
-        }else{
-            $setImageName = $user->image;
+        }catch (\Exception $exception){
+            report($exception);
+            DB::rollBack();
         }
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->username = $slug;
-        $user->about = $request->about;
-        $user->image = $setImageName;
-        $user->save();
-
-        Toastr::success('Profile Update Successfully Done !', 'Success');
-        return redirect()->back();
-
-
     }
-
 
 
     public function passwordUpdate(Request $request, $id)
@@ -89,9 +83,9 @@ class SettingsController extends Controller
         $hashedPassword = User::findOrFail($id)->password;
 
 
-        if (Hash::check($request->currentPassword,$hashedPassword)){
+        if (Hash::check($request->currentPassword, $hashedPassword)) {
 
-            if (!Hash::check($request->password, $hashedPassword)){
+            if (!Hash::check($request->password, $hashedPassword)) {
                 $user = User::findOrFail($id);
                 $user->password = Hash::make($request->password);
                 $user->save();
@@ -99,20 +93,18 @@ class SettingsController extends Controller
                 Toastr::success('Password Update Successfully Done !', 'Success');
                 auth()->logout();
                 return redirect()->back();
-            }else{
+            } else {
                 Toastr::error('Current Password can not be same to old password', 'Error');
                 return redirect()->back();
             }
 
-        }else{
+        } else {
             Toastr::error('Current Password does not match ', 'Error');
             return redirect()->back();
         }
 
 
-
     }
-
 
 
 }

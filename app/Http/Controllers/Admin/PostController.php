@@ -109,7 +109,7 @@ class PostController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Post $post
-     * @return Response
+     * @return Application|Factory|Response|View
      */
     public function edit(Post $post)
     {

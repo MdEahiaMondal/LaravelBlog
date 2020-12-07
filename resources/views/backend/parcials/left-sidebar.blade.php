@@ -2,21 +2,21 @@
     <!-- User Info -->
     <div class="user-info">
         <div class="image">
-            <img src="{{ asset('storage/profile/'.auth()->user()->image) }}" width="48" height="48" alt="User" />
+            <img src="{{ auth()->user()->image_url }}" width="48" height="48" alt="User"/>
         </div>
         <div class="info-container">
-            <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {{ auth()->user()->name }} </div>
+            <div class="name" data-toggle="dropdown" aria-haspopup="true"
+                 aria-expanded="false"> {{ auth()->user()->name }} </div>
             <div class="email">{{ auth()->user()->email }}</div>
             <div class="btn-group user-helper-dropdown">
                 <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                 <ul class="dropdown-menu pull-right">
                     @if(auth()->user()->role_id == 1)
                         <li><a href="{{ route('admin.settings') }}"><i class="material-icons">person</i>Profile</a></li>
-                        @else
-                        <li><a href="{{ route('author.settings') }}"><i class="material-icons">person</i>Profile</a></li>
-                        @endif
-
-
+                    @else
+                        <li><a href="{{ route('author.settings') }}"><i class="material-icons">person</i>Profile</a>
+                        </li>
+                    @endif
                     <li>
                         <a href="{{ route('logout') }}"
                            onclick="event.preventDefault();
@@ -131,7 +131,7 @@
 
 
 
-                {{--******************author link******************--}}
+            {{--******************author link******************--}}
             @if(Request::is('author*'))
                 <li class="{{ Request::is('author/dashboard') ? 'active' : '' }}">
                     <a href="{{ route('author.dashboard') }}">

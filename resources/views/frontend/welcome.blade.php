@@ -62,7 +62,7 @@
                                                                      alt=" {{ $post->title }} "></div>
 
                                         <a class="avatar" href="{{ route('profile.post',$post->user->username) }}"><img
-                                                src="{{ asset('storage/profile/'.$post->user->image) }}"
+                                                src="{{ $post->user->image_url }}"
                                                 alt="Profile Image"></a>
 
                                         <div class="blog-info">

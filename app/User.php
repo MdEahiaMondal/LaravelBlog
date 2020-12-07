@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -39,6 +40,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
+    protected $appends = ['image_url'];
+
+    public function getImageUrlAttribute()
+    {
+        return Storage::url($this->profileImage->path);
+    }
 
     public function role()
     {
@@ -78,6 +86,12 @@ class User extends Authenticatable
     public function scopeAuthors($query)
     {
         return $query->where('role_id', 2);
+    }
+
+
+    public function profileImage()
+    {
+        return $this->morphOne(Image::class, 'imageable');
     }
 
 
